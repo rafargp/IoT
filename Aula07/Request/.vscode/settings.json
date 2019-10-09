@@ -1,0 +1,27 @@
+{
+    "files.associations": {
+        "ACS-ReleasePipeline": "jenkins",
+        "ACS-PROD-CI": "jenkins",
+        "ACS-NONPROD-CI": "jenkins",
+        "ACS-VALIDATE-RELEASE": "jenkins",
+        "ACS-RELEASE-PIPELINE": "jenkins",
+        "ACS-UPDATE-RELEASE": "jenkins",
+        "ACS-RELEASE-ISSUELINK": "jenkins",
+        "GTI-NONPROD-CI": "jenkins",
+        "ACS-UPLOAD-SCRIPT": "jenkins",
+        "AddLinkToIssueFromBranch": "jenkins",
+        "ACS-REMOVE-SCRIPT": "jenkins",
+        "GTI-DUMP": "jenkins",
+        "JNK-Services": "jenkins",
+        "RM-Gateway": "jenkins",
+        "Gateway": "jenkins",
+        "GTI-PROD-CI": "jenkins",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp"
+    }
+}
