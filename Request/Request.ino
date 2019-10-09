@@ -1,49 +1,57 @@
+//Libraries
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <Wire.h>
 #include "RTClib.h"
 #include "MPU9250.h"
 
+//I2C Devices
+#define MPU9250_ADDRESS 0x68 //Gyroscope
+#define DS3231_ADDRESS 0x76 //Real Time Clock
+
+//Global Variables
 MPU9250 mpu;
 RTC_DS3231 rtc;
-
+DateTime nowDateTime;
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
-
-const char *ssid = "F106_CS10";
-const char *password = "Senai4.0";
+const char *ssid = "Rafaelrgp";
+const char *password = "rafael02";
+const char *url = "http://rafargpiot.mybluemix.net/meusensor";
+//const char *ssid = "F106_CS10";
+//const char *password = "Senai4.0";
 // const char *ssid = "GE VISITANTE 2.4Ghz";
 // const char *password = "gealunosenai";
-// const char *ssid = "Rafaelrgp";
-// const char *password = "rafael02";
-DateTime nowDateTime;
 
 void setup()
 {
     Serial.begin(115200);
-    delay(4000);
     WiFi.begin(ssid, password);
+    delay(2000);
     while (WiFi.status() != WL_CONNECTED)
     {
-        delay(1000);
         Serial.println("Connecting to WiFi..");
+        delay(1000);
     }
-    Serial.println("Connected to the WiFi network");
-    Serial.println(WiFi.localIP());
+    Serial.println("Connected to the WiFi network with local IP:" + WiFi.localIP().toString());
 
     if (!rtc.begin())
     {
         Serial.println("Couldn't find RTC");
-        while (1)
-            ;
+    }else{
+        rtc.adjust(DateTime(__DATE__, __TIME__));
     }
-    rtc.adjust(DateTime(__DATE__, __TIME__));
 }
 void loop()
 {
     getMPUData();
     getTime();
-    //postData("http://rafargpiot.mybluemix.net/meusensor","Pulso="+String(getPulse())+"&temperatura="+String(getTemperature())+"&latitude=20&longitude=30&ip="+WiFi.localIP().toString());
+    String parameters = "";
+    parameters+= "pulso="+String(getPulse());
+    parameters+= "&temperatura="+String(getTemperature());
+    parameters+= "&latitude=20";
+    parameters+= "&longitude=30";
+    parameters+= "&ip="+WiFi.localIP().toString();
+
+    postData(url,parameters);
 }
 void getMPUData()
 {
@@ -51,9 +59,6 @@ void getMPUData()
     if ((millis() - prev_ms) > 16)
     {
         mpu.update();
-        //mpu.print();
-
-        Serial.println("");
         Serial.print("Roll: ");
         Serial.println(mpu.getRoll());
 
@@ -75,7 +80,7 @@ void postData(String url, String parameters)
 {
     if (WiFi.status() != WL_CONNECTED)
     {
-        Serial.println("Error in WiFi connection");
+        Serial.println("Wi-Fi is not connected!");
         return;
     }
     HTTPClient http;
