@@ -8,8 +8,6 @@
 MPU9250 mpu;
 RTC_DS3231 rtc;
 
-#define MPU9250_ADDRESS 0x76
-
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
 
 const char *ssid = "F106_CS10";
@@ -19,9 +17,6 @@ const char *password = "Senai4.0";
 // const char *ssid = "Rafaelrgp";
 // const char *password = "rafael02";
 DateTime nowDateTime;
-
-//rtc = 0X57
-//mpu = 076
 
 void setup()
 {
@@ -33,6 +28,9 @@ void setup()
         delay(1000);
         Serial.println("Connecting to WiFi..");
     }
+    Serial.println("Connected to the WiFi network");
+    Serial.println(WiFi.localIP());
+
     if (!rtc.begin())
     {
         Serial.println("Couldn't find RTC");
@@ -40,9 +38,6 @@ void setup()
             ;
     }
     rtc.adjust(DateTime(__DATE__, __TIME__));
-
-    Serial.println("Connected to the WiFi network");
-    Serial.println(WiFi.localIP());
 }
 void loop()
 {
