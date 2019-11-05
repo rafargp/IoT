@@ -5,21 +5,21 @@
 #include "MPU9250.h"
 
 //I2C Devices
-#define MPU9250_ADDRESS 0x68 //Gyroscope
-#define DS3231_ADDRESS 0x76 //Real Time Clock
+#define MPU9250_ADDRESS 0x76 //Gyroscope
+#define DS3231_ADDRESS 0x57  //Real Time Clock
 
 //Global Variables
-MPU9250 mpu;
 RTC_DS3231 rtc;
+MPU9250 mpu;
 DateTime nowDateTime;
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
-const char *ssid = "Rafaelrgp";
-const char *password = "rafael02";
 const char *url = "http://rafargpiot.mybluemix.net/meusensor";
+//const char *ssid = "Rafaelrgp";
+// const char *password = "rafael02";
 //const char *ssid = "F106_CS10";
 //const char *password = "Senai4.0";
-// const char *ssid = "GE VISITANTE 2.4Ghz";
-// const char *password = "gealunosenai";
+const char *ssid = "GE VISITANTE 2.4Ghz";
+const char *password = "gealunosenai";
 
 void setup()
 {
@@ -33,25 +33,73 @@ void setup()
     }
     Serial.println("Connected to the WiFi network with local IP:" + WiFi.localIP().toString());
 
-    if (!rtc.begin())
-    {
-        Serial.println("Couldn't find RTC");
-    }else{
-        rtc.adjust(DateTime(__DATE__, __TIME__));
-    }
+    // mpu.setup();
+    delay(2000);
+    // if (!rtc.begin())
+    // {
+    //     Serial.println("Couldn't find RTC");
+    // }
+    // else
+    // {
+    //     rtc.adjust(DateTime(__DATE__, __TIME__));
+    // }
 }
 void loop()
 {
-    getMPUData();
-    getTime();
-    String parameters = "";
-    parameters+= "pulso="+String(getPulse());
-    parameters+= "&temperatura="+String(getTemperature());
-    parameters+= "&latitude=20";
-    parameters+= "&longitude=30";
-    parameters+= "&ip="+WiFi.localIP().toString();
-
-    postData(url,parameters);
+    // discoveryDevicesI2C();
+    // getMPUData();
+    // getTime();
+    for (int i = 0; i <= 100; i++)
+    {
+        String parameters = "";
+        parameters += "pulso=" + String(i);
+        parameters += "&temperatura=" + String(i);
+        parameters += "&latitude=20";
+        parameters += "&longitude=30";
+        parameters += "&ip=" + WiFi.localIP().toString();
+        postData(url, parameters);
+        delay(100);
+    }
+}
+void discoveryDevicesI2C()
+{
+    byte error, address;
+    int nDevices;
+    Serial.println("Scanning...");
+    nDevices = 0;
+    for (address = 1; address < 127; address++)
+    {
+        Wire.beginTransmission(address);
+        error = Wire.endTransmission();
+        if (error == 0)
+        {
+            Serial.print("I2C device found at address 0x");
+            if (address < 16)
+            {
+                Serial.print("0");
+            }
+            Serial.println(address, HEX);
+            nDevices++;
+        }
+        else if (error == 4)
+        {
+            Serial.print("Unknow error at address 0x");
+            if (address < 16)
+            {
+                Serial.print("0");
+            }
+            Serial.println(address, HEX);
+        }
+    }
+    if (nDevices == 0)
+    {
+        Serial.println("No I2C devices found\n");
+    }
+    else
+    {
+        Serial.println("done\n");
+    }
+    delay(1000);
 }
 void getMPUData()
 {
@@ -72,7 +120,7 @@ void getMPUData()
 }
 int getPulse()
 {
-    int sensorValue = analogRead(34);
+    int sensorValue = analogRead(18);
     Serial.println(sensorValue);
     return sensorValue;
 }
