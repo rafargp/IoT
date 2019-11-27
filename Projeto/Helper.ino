@@ -36,5 +36,4 @@ void discoveryDevicesI2C()
   {
     Serial.println("done\n");
   }
-  delay(1000);
 }
