@@ -46,7 +46,7 @@ void setup()
   pinMode(ledPin, OUTPUT);  // pin that will blink to your heartbeat!
   pinMode(fadePin, OUTPUT); // pin that will fade to your heartbeat!
   Serial.begin(115200);     // we agree to talk fast!
-  interruptSetup();         // sets up to read Pulse Sensor signal every 2mS
+  interruptStart();         // sets up to read Pulse Sensor signal every 2mS
 }
 
 void loop()
@@ -76,6 +76,8 @@ void ledFadeToBeat(){
 
 void sendDataToProcessing(char symbol, int data)
 {
-  Serial.print(symbol);
-  Serial.println(data); // the data to send culminating in a carriage return
+  if(symbol == 'B'){
+    Serial.print(symbol);
+    Serial.println(data); // the data to send culminating in a carriage return
+  }
 }

@@ -10,7 +10,7 @@ volatile boolean secondBeat = false;      // used to seed rate array so we start
 
 hw_timer_t *timer = NULL;
 
-void interruptSetup()
+void interruptStart()
 {
   // Use 1st timer of 4 (counted from zero).
   // Set 80 divider for prescaler (see ESP32 Technical Reference Manual for more info).
@@ -27,7 +27,13 @@ void interruptSetup()
   // Start an alarm
   timerAlarmEnable(timer);
 }
-
+void interruptStop()
+{
+  timerAlarmDisable(timer);
+  timerDetachInterrupt(timer);
+  timerEnd(timer);
+  timer = null;
+}
 // THIS IS THE HW-TIMER INTERRUPT SERVICE ROUTINE.
 // Timer makes sure that we take a reading every 2 miliseconds
 void ISRTr()
