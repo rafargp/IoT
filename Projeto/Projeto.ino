@@ -1,5 +1,4 @@
 #include "RTClib.h"
-#include "RTClib.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "MPU9250.h"
