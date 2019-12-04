@@ -1,7 +1,7 @@
 int fadeRate = 0; // used to fade LED on with PWM on fadePin
-int pulseSensorPin = 34;
+int pulseSensorPin = 25;
 int ledPin = 33;
-int buttonPin = 32;
+int buttonPin = 27;
 
 volatile int BPM;               // used to hold the pulse rate
 volatile int Signal;            // holds the incoming raw data

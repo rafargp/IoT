@@ -12,6 +12,7 @@ void SetupWifi()
         Serial.println(ssid[contador]);
         WiFi.begin(ssid[contador], password[contador]);
         delay(1000);
+        contador++;
     }
 }
 int postData(String url, String parameters)
