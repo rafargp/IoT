@@ -32,7 +32,8 @@ void interruptStop()
   timerAlarmDisable(timer);
   timerDetachInterrupt(timer);
   timerEnd(timer);
-  timer = null;
+  timer = NULL;
+  Serial.println("Timer Desabilitado");
 }
 // THIS IS THE HW-TIMER INTERRUPT SERVICE ROUTINE.
 // Timer makes sure that we take a reading every 2 miliseconds

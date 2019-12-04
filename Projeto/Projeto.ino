@@ -10,16 +10,22 @@ char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta",
 
 void setup()
 {
+  Serial.begin(115200);
 
-#ifndef ESP8266
-  while (!Serial)
-#endif
 
-  Serial.begin(9600);
+  Serial.println("Iniciando Wifi");
+  SetupWifi();
+  Serial.println("Wifi Iniciado");
 
   delay(3000);
+  
+  Serial.println("Iniciando PulseSensor");
+  setupHeartRate();
+  interruptStart();
+  Serial.println("PulseSensor Iniciado");
 }
 
 void loop()
 {
+  readPulseSensor();
 }
