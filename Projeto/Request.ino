@@ -1,5 +1,6 @@
-void SetupWifi()
+void setupWifi()
 {
+    Serial.println("Iniciando Wifi");
     int contador = 0;
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -14,6 +15,7 @@ void SetupWifi()
         delay(1000);
         contador++;
     }
+    Serial.println("Wifi Iniciado");
 }
 int postData(String url, String parameters)
 {

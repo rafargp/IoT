@@ -12,23 +12,19 @@ hw_timer_t *timer = NULL;
 
 void interruptStart()
 {
-  // Use 1st timer of 4 (counted from zero).
-  // Set 80 divider for prescaler (see ESP32 Technical Reference Manual for more info).
+  Serial.println("Iniciando Interruptor");
   timer = timerBegin(0, 80, true);
 
-  // Initializes Timer to run the ISR to sample every 2mS as per original Sketch.
-  // Attach ISRTr function to our timer.
   timerAttachInterrupt(timer, &ISRTr, true);
 
-  // Set alarm to call isr function every 2 milliseconds (value in microseconds).
-  // Repeat the alarm (third parameter)
   timerAlarmWrite(timer, 2000, true);
 
-  // Start an alarm
   timerAlarmEnable(timer);
+  Serial.println("Interruptor Iniciado");
 }
 void interruptStop()
 {
+  Serial.println("Desabilitando Interruptor");
   timerAlarmDisable(timer);
   timerDetachInterrupt(timer);
   timerEnd(timer);

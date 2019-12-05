@@ -2,6 +2,7 @@ RTC_DS3231 rtc;
 
 void setupRTC()
 {
+  Serial.println("Iniciando RTC");
   if (!rtc.begin())
   {
     Serial.println("Couldn't find RTC");
@@ -13,6 +14,7 @@ void setupRTC()
     Serial.println("RTC lost power, lets set the time!");
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
+  Serial.println("RTC Iniciado");
 }
 
 DateTime GetTime()
