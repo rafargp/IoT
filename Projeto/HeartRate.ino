@@ -12,7 +12,6 @@ int lastBpm = 0;
 void setupHeartRate()
 {
   Serial.println("Iniciando PulseSensor");
-  pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT); 
   Serial.println("PulseSensor Iniciado");
 }
