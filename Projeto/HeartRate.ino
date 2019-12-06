@@ -1,6 +1,5 @@
-int fadeRate = 0; // used to fade LED on with PWM on fadePin
-int pulseSensorPin = 25;
-int ledPin = 33;
+int pulseSensorPin =34;
+int pulseLedPin =33;
 
 volatile int BPM;               // used to hold the pulse rate
 volatile int Signal;            // holds the incoming raw data
@@ -12,19 +11,28 @@ int lastBpm = 0;
 void setupHeartRate()
 {
   Serial.println("Iniciando PulseSensor");
-  pinMode(ledPin, OUTPUT); 
+  pinMode(pulseLedPin, OUTPUT); 
   Serial.println("PulseSensor Iniciado");
 }
-
+int getBPM(){
+  if(QS) return BPM
+  return -1;
+}
+int getIBI(){
+  if(QS) return IBI;
+  return -1;
+}
+int getSignal(){
+  return Signal;
+}
 void readPulseSensor()
 {
     if (QS == true)
-    {                                 // Quantified Self flag is true when arduino finds a heartbeat
-      fadeRate = 255;                 // Set 'fadeRate' Variable to 255 to fade LED with pulse
-      sendDataToProcessing('S', Signal); // send Processing the raw Pulse Sensor data
-      sendDataToProcessing('B', BPM); // send heart rate with a 'B' prefix
-      sendDataToProcessing('Q', IBI); // send time between beats with a 'Q' prefix
-      QS = false;                     // reset the Quantified Self flag for next time
+    {                                     
+      sendDataToProcessing('S', Signal); 
+      sendDataToProcessing('B', BPM); 
+      sendDataToProcessing('Q', IBI); 
+      QS = false;                     
   }
   yield();
 }
@@ -33,5 +41,5 @@ void sendDataToProcessing(char symbol, int data)
 {
   Serial.print(symbol);
   Serial.print(";");
-  Serial.println(data); // the data to send culminating in a carriage return
+  Serial.println(data);
 }

@@ -14,7 +14,7 @@ void setup()
   Serial.begin(115200);
   
   setupDHT(); delay(500);
-  setupWifi(); delay(500);  
+  //setupWifi(); delay(500);  
   setupHeartRate(); delay(500);
   interruptStart(); delay(500);
 }
@@ -22,6 +22,5 @@ void setup()
 void loop()
 {
   readPulseSensor();
-  delay(500);
   readDHT();
 }

@@ -11,21 +11,31 @@ void setupDHT() {
   dht.begin();
   Serial.println("DHT Iniciado");
 }
+float getDHTTemperature(){
+  return dht.readTemperature();
+}
+float getDHTHumidity(){
+  return dht.readHumidity();
+}
+float getHeatIndex(){
+  return dht.computeHeatIndex(getDHTTemperature(), getDHTHumidity(), false);
+}
+float getHeatIndex(float t, float h){
+  return dht.computeHeatIndex(t, h, false);
+}
 
 void readDHT() {
   delay(2000);
 
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-  
-  
+  float h = getDHTHumidity();
+  float t = getDHTTemperature();
+    
   if (isnan(h) || isnan(t)) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
 
-  float hic = dht.computeHeatIndex(t, h, false);
+  float hic = getHeatIndex(t,h);
 
   Serial.print("Humidity: ");
   Serial.print(h);
@@ -35,5 +45,5 @@ void readDHT() {
   Serial.print(" *C ");
   Serial.print("Heat index: ");
   Serial.print(hic);
-  Serial.print(" *C ");
+  Serial.println(" *C ");
 }

@@ -61,7 +61,7 @@ void ISRTr()
     if ((Signal > thresh) && (Pulse == false) && (N > (IBI / 5) * 3))
     {
       Pulse = true;                       // set the Pulse flag when we think there is a pulse
-      digitalWrite(ledPin, HIGH);         // turn on pin 13 LED
+      digitalWrite(pulseLedPin, HIGH);         // turn on pin 13 LED
       IBI = sampleCounter - lastBeatTime; // measure time between beats in mS
       lastBeatTime = sampleCounter;       // keep track of time for next pulse
 
@@ -102,7 +102,7 @@ void ISRTr()
 
   if (Signal < thresh && Pulse == true)
   {                            // when the values are going down, the beat is over
-    digitalWrite(ledPin, LOW); // turn off pin 13 LED
+    digitalWrite(pulseLedPin, LOW); // turn off pin 13 LED
     Pulse = false;             // reset the Pulse flag so we can do it again
     amp = P - T;               // get amplitude of the pulse wave
     thresh = amp / 2 + T;      // set thresh at 50% of the amplitude

@@ -1,18 +1,24 @@
+int MAX_TRY = 3;
 void setupWifi()
 {
     Serial.println("Iniciando Wifi");
     int contador = 0;
     while (WiFi.status() != WL_CONNECTED)
     {
-        if (contador == 2)
+        if (contador == 3)
         {
             contador = 0;
+            MAX_TRY--;
+        }
+        if(MAX_TRY == 0){
+          Serial.println("Wifi Não Conectado!");
+          return;
         }
 
         Serial.print("Connecting to WiFi ");
         Serial.println(ssid[contador]);
         WiFi.begin(ssid[contador], password[contador]);
-        delay(1000);
+        delay(2000);
         contador++;
     }
     Serial.println("Wifi Iniciado");

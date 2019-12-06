@@ -37,7 +37,7 @@ DateTime GetTime()
   Serial.println();
   return now;
 }
-float GetTemperature()
+float GetRTCTemperature()
 {
   float temperature = rtc.getTemperature();
   Serial.print("Temperature: ");
