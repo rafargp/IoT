@@ -1,7 +1,9 @@
 #include <Wire.h>
+#include <Adafruit_BMP280.h>
 #include "RTClib.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include "DHT.h"
 
 
 const char *url = "http://rafargpiot.mybluemix.net/meusensor";
@@ -12,15 +14,18 @@ char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta",
 void setup()
 {
   Serial.begin(115200);
-  
-  setupDHT(); delay(500);
-  //setupWifi(); delay(500);  
-  setupHeartRate(); delay(500);
-  interruptStart(); delay(500);
+  setupBMP(); delay(1000);
+  setupDHT(); delay(1000);
+  //setupWifi(); delay(1000);  
+  setupHeartRate(); delay(1000);
+  interruptStart(); delay(1000);  
 }
 
 void loop()
 {
+  readBMP();
   readPulseSensor();
   readDHT();
+  discoveryDevicesI2C();
+
 }

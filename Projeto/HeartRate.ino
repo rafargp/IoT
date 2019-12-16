@@ -15,7 +15,7 @@ void setupHeartRate()
   Serial.println("PulseSensor Iniciado");
 }
 int getBPM(){
-  if(QS) return BPM
+  if(QS) return BPM;
   return -1;
 }
 int getIBI(){

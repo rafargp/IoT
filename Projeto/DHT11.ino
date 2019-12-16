@@ -1,4 +1,3 @@
-#include "DHT.h"
 
 #define DHTPIN 13
 
