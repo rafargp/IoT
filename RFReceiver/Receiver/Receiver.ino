@@ -3,8 +3,8 @@
 HardwareSerial RxSerial(1);
 
 void setup(){
-  Serial.begin(115200);
-  RxSerial.begin(115200,SERIAL_8N1,27,26);
+  Serial.begin(9600);
+  RxSerial.begin(9600,SERIAL_8N1,27,26);
 }
 
 void loop(){
