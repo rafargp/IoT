@@ -13,7 +13,6 @@
 /* Add WiFi and MQTT credentials to credentials.h file */
 #include "credentials.h"
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -121,6 +120,7 @@ void loop() {
   boolean result;
   // Scan Beacons
   ScanBeacons();
+  
   // Reconnect WiFi if not connected
   while (WiFi.status() != WL_CONNECTED) {
     connectWiFi();
@@ -133,40 +133,23 @@ void loop() {
   client.loop();
   
   // SenML begins
-  String payloadString = "{\"e\":[";
   for(uint8_t i = 0; i < bufferIndex; i++) {
+    String payloadString = "{\"e\":[";
     payloadString += "{\"m\":\"";
     payloadString += String(buffer[i].address);
     payloadString += "\",\"r\":\"";
     payloadString += String(buffer[i].rssi);
     payloadString += "\"}";
-    if(i < bufferIndex-1) {
-      payloadString += ',';
-    }
-  }
-  // SenML ends. Add this stations MAC
-  payloadString += "],\"st\":\"";
-  payloadString += String(WiFi.macAddress());
-  // Add board temperature in fahrenheit
-  payloadString += "\",\"t\":\"";
-  payloadString += String(temprature_sens_read());
-  payloadString += "\"}";
-  
-  // Print and publish payload
-  Serial.print("MAX len: ");
-  Serial.println(MQTT_MAX_PACKET_SIZE);
-  
-  Serial.print("Payload length: ");
-  Serial.println(payloadString.length());
-  Serial.println(payloadString);
-  
-  payloadString.getBytes(message_char_buffer, payloadString.length()+1);
-  result = client.publish("/beacons/office", message_char_buffer, payloadString.length(), false);
-  Serial.print("PUB Result: ");
-  Serial.println(result);
-  
-  //Start over the scan loop
+    payloadString += "],\"st\":\"";
+    payloadString += String(WiFi.macAddress());
+    payloadString += "\",\"t\":\"";
+    payloadString += String(temprature_sens_read());
+    payloadString += "\"}";
+    payloadString.getBytes(message_char_buffer, payloadString.length()+1);
+    result = client.publish("/beacons/office", message_char_buffer, payloadString.length(), false);
+    Serial.print("PUB Result: ");
+    Serial.println(result);
+  }  
   bufferIndex = 0;
-  // Add delay to slow down publishing frequency if needed.
-  //delay(5000);
+  delay(5000);
 }

@@ -1,6 +1,6 @@
 export default {
     // MQTT servers websocket connection
-    port: 1883,
+    port: 9001,
     host: 'brware.com.br',
     username: 'brware',
     password: 'SQRT(pi)!=314',
